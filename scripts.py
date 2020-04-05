@@ -1,3 +1,4 @@
+from functools import wraps
 from random import choice
 from datacenter.models import Chastisement, Commendation, Lesson, Mark, Schoolkid
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
@@ -35,6 +36,7 @@ COMMENDATIONS = ["Молодец!",
 
 
 def get_schoolkid(decorated_function):
+    @wraps(decorated_function)
     def wrapper(child_name, *args, **kwargs):
         try:
             schoolkid = Schoolkid.objects.get(full_name__contains=child_name)
